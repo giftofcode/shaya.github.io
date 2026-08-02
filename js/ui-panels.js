@@ -21,10 +21,12 @@ Editora.ui.renderUploadPanel = function () {
         </div>
       </div>
 
-      <label
-        class="uploadCard"
-        for="uploadInput"
-      >
+      <input
+  id="uploadInput"
+  type="file"
+  accept="image/jpeg,image/png,image/webp"
+  hidden
+>
         <span>${uploadLabel}</span>
       </label>
 
