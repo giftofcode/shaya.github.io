@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="description"
+    content="A simple online photo editor for cropping, rotating, filtering and downloading photos."
+  />
+
+  <title>PixelCraft Photo Editor</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">P</div>
+
+      <div>
+        <h1>PixelCraft</h1>
+        <p>Online Photo Editor</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button id="undoBtn" class="secondary-btn" disabled>
+        Undo
+      </button>
+
+      <button id="redoBtn" class="secondary-btn" disabled>
+        Redo
+      </button>
+
+      <button id="resetBtn" class="secondary-btn" disabled>
+        Reset
+      </button>
+
+      <button id="downloadBtn" class="primary-btn" disabled>
+        Download
+      </button>
+    </div>
+  </header>
+
+  <main class="editor-layout">
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <section class="tool-section">
+        <h2>Upload</h2>
+
+        <label for="imageUpload" class="upload-button">
+          Choose Photo
+        </label>
+
+        <input
+          type="file"
+          id="imageUpload"
+          accept="image/png, image/jpeg, image/webp"
+          hidden
+        />
+
+        <p class="small-text">
+          Supports JPG, PNG and WebP
+        </p>
+      </section>
+
+      <section class="tool-section">
+        <h2>Transform</h2>
+
+        <div class="button-grid">
+          <button id="rotateLeftBtn" class="tool-btn" disabled>
+            ↶ Rotate
+          </button>
+
+          <button id="rotateRightBtn" class="tool-btn" disabled>
+            Rotate ↷
+          </button>
+
+          <button id="flipHorizontalBtn" class="tool-btn" disabled>
+            Flip H
+          </button>
+
+          <button id="flipVerticalBtn" class="tool-btn" disabled>
+            Flip V
+          </button>
+        </div>
+      </section>
+
+      <section class="tool-section">
+        <h2>Adjustments</h2>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="brightness">Brightness</label>
+            <span id="brightnessValue">100%</span>
+          </div>
+
+          <input
+            type="range"
+            id="brightness"
+            min="0"
+            max="200"
+            value="100"
+            disabled
+          />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="contrast">Contrast</label>
+            <span id="contrastValue">100%</span>
+          </div>
+
+          <input
+            type="range"
+            id="contrast"
+            min="0"
+            max="200"
+            value="100"
+            disabled
+          />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="saturation">Saturation</label>
+            <span id="saturationValue">100%</span>
+          </div>
+
+          <input
+            type="range"
+            id="saturation"
+            min="0"
+            max="200"
+            value="100"
+            disabled
+          />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="blur">Blur</label>
+            <span id="blurValue">0px</span>
+          </div>
+
+          <input
+            type="range"
+            id="blur"
+            min="0"
+            max="10"
+            step="0.1"
+            value="0"
+            disabled
+          />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="grayscale">Grayscale</label>
+            <span id="grayscaleValue">0%</span>
+          </div>
+
+          <input
+            type="range"
+            id="grayscale"
+            min="0"
+            max="100"
+            value="0"
+            disabled
+          />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="sepia">Sepia</label>
+            <span id="sepiaValue">0%</span>
+          </div>
+
+          <input
+            type="range"
+            id="sepia"
+            min="0"
+            max="100"
+            value="0"
+            disabled
+          />
+        </div>
+      </section>
+
+      <section class="tool-section">
+        <h2>Zoom</h2>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="zoom">Canvas Zoom</label>
+            <span id="zoomValue">100%</span>
+          </div>
+
+          <input
+            type="range"
+            id="zoom"
+            min="25"
+            max="200"
+            value="100"
+            disabled
+          />
+        </div>
+      </section>
+    </aside>
+
+    <!-- Main Editing Area -->
+    <section class="workspace">
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">🖼️</div>
+
+        <h2>Upload your photo</h2>
+
+        <p>
+          Edit brightness, contrast, filters, rotation and more.
+        </p>
+
+        <label for="imageUpload" class="primary-btn upload-main-btn">
+          Upload Photo
+        </label>
+      </div>
+
+      <div id="canvasWrapper" class="canvas-wrapper hidden">
+        <canvas id="editorCanvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Right Panel -->
+    <aside class="right-panel">
+      <section class="tool-section">
+        <h2>Quick Filters</h2>
+
+        <div class="filter-list">
+          <button
+            class="filter-btn"
+            data-filter="normal"
+            disabled
+          >
+            <span class="filter-preview normal-filter"></span>
+            Normal
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="grayscale"
+            disabled
+          >
+            <span class="filter-preview grayscale-filter"></span>
+            B&W
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="sepia"
+            disabled
+          >
+            <span class="filter-preview sepia-filter"></span>
+            Vintage
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="warm"
+            disabled
+          >
+            <span class="filter-preview warm-filter"></span>
+            Warm
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="cool"
+            disabled
+          >
+            <span class="filter-preview cool-filter"></span>
+            Cool
+          </button>
+
+          <button
+            class="filter-btn"
+            data-filter="dramatic"
+            disabled
+          >
+            <span class="filter-preview dramatic-filter"></span>
+            Dramatic
+          </button>
+        </div>
+      </section>
+
+      <section class="tool-section export-section">
+        <h2>Export Settings</h2>
+
+        <label for="downloadFormat">Format</label>
+
+        <select id="downloadFormat" disabled>
+          <option value="png">PNG</option>
+          <option value="jpeg">JPG</option>
+          <option value="webp">WebP</option>
+        </select>
+
+        <label for="downloadQuality">Quality</label>
+
+        <div class="control-label">
+          <span>Image quality</span>
+          <span id="qualityValue">92%</span>
+        </div>
+
+        <input
+          type="range"
+          id="downloadQuality"
+          min="10"
+          max="100"
+          value="92"
+          disabled
+        />
+
+        <button
+          id="sideDownloadBtn"
+          class="primary-btn full-width"
+          disabled
+        >
+          Download Photo
+        </button>
+      </section>
+    </aside>
+  </main>
+
+  <footer>
+    <p>PixelCraft Photo Editor</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
