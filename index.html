@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<meta
+name="theme-color"
+content="#7C5CFC">
+
+<title>Editora</title>
+
+<link
+rel="stylesheet"
+href="css/variables.css">
+
+<link
+rel="stylesheet"
+href="css/base.css">
+
+<link
+rel="stylesheet"
+href="css/layout.css">
+
+<link
+rel="stylesheet"
+href="css/components.css">
+
+<link
+rel="stylesheet"
+href="css/editor.css">
+
+<link
+rel="stylesheet"
+href="css/responsive.css">
+
+<!-- Fabric.js -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="app">
+
+<!-- HEADER -->
+
+<header class="topbar">
+
+<div class="logo">
+
+<div class="logoBox">
+
+E
+
+</div>
+
+<div>
+
+<h1>Editora</h1>
+
+<p>Edit beautifully.</p>
+
+</div>
+
+</div>
+
+<div class="topButtons">
+
+<button id="undoBtn">
+
+Undo
+
+</button>
+
+<button id="redoBtn">
+
+Redo
+
+</button>
+
+<button id="exportBtn">
+
+Export
+
+</button>
+
+</div>
+
+</header>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<button class="tool active" data-tool="upload">
+
+Upload
+
+</button>
+
+<button class="tool" data-tool="adjust">
+
+Adjust
+
+</button>
+
+<button class="tool" data-tool="filters">
+
+Filters
+
+</button>
+
+<button class="tool" data-tool="crop">
+
+Crop
+
+</button>
+
+<button class="tool" data-tool="text">
+
+Text
+
+</button>
+
+<button class="tool" data-tool="elements">
+
+Elements
+
+</button>
+
+<button class="tool" data-tool="resize">
+
+Resize
+
+</button>
+
+</aside>
+
+<!-- WORKSPACE -->
+
+<main class="workspace">
+
+<div id="canvasContainer">
+
+<canvas id="editorCanvas"></canvas>
+
+</div>
+
+</main>
+
+<!-- RIGHT PANEL -->
+
+<aside class="properties">
+
+<div id="toolTitle">
+
+Upload
+
+</div>
+
+<div id="toolContent">
+
+<label class="uploadCard">
+
+<input
+type="file"
+id="uploadInput"
+accept="image/*"
+hidden>
+
+<span>
+
+Upload Photo
+
+</span>
+
+</label>
+
+<button id="samplePhoto">
+
+Use Sample Photo
+
+</button>
+
+<p>
+
+Your photo never leaves your device.
+
+</p>
+
+</div>
+
+</aside>
+
+<!-- MOBILE NAVIGATION -->
+
+<nav class="mobileNav">
+
+<button data-tool="upload">
+
+Upload
+
+</button>
+
+<button data-tool="adjust">
+
+Adjust
+
+</button>
+
+<button data-tool="filters">
+
+Filters
+
+</button>
+
+<button data-tool="crop">
+
+Crop
+
+</button>
+
+<button data-tool="text">
+
+Text
+
+</button>
+
+</nav>
+
+</div>
+
+<script src="js/state.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/canvas.js"></script>
+
+<script src="js/upload.js"></script>
+
+<script src="js/export.js"></script>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
